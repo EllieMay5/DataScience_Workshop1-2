@@ -1,0 +1,151 @@
+---
+title: "DataSci"
+author: "Ellana Pierce"
+date: "2024-05-16"
+output: html_document
+---
+
+1.1 Introduction
+Data science is currently one of the most valued skills in the Marine Science field. This is often in the form of scripts within the Rstudio program, among others like Python and MatLAB. The ability to be able to gain an understanding into data to ask questions has grown alongside the advancements of technology and artificial intellegence within the last 10 years. I have said it before, but I'll say it again: The future is faster that we think!
+
+To gain the skill in data science allows us to automate work flows, visualise data, share and combine data locally and globally through repositories and importantly allows our scripts and data analysis, to be reproduced in studies alike.
+
+Gaining qualitative or quantitative data in the field, is in itself a vital aspect of science within any field. It is clear that when gathering data, a lot of aspects must be taken into account. The type of data collected, sample sizes, resources needed and how to best str
+
+Gathering qualitative or quantitative data in the field is an essential aspect of scientific research across various disciplines. It involves careful consideration of multiple factors, including the type of data collected, sample sizes, required resources, and methodological approaches. This underscores the crucial role of data currency, where collected data not only meets scientific requirements but also translates into tangible impacts in the natural world. This is where data science plays a pivotal role, enabling the extraction of meaningful insights and trends from data sets to address pertinent questions and advance scientific understanding.
+
+The workshop has a lot of theory based practice that is knowledge I hope to retain, so where things get wordy, that's just my way of saying "Hey! I want to remember this!"
+
+Let's get right into it... 
+Starting a R markdown script:
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+This first workshop, will be spent on building my base of scientific programmming skills in the context of making data analyses TRANSPARENT and REPRODUCIBLE.
+
+Key takeaway: Putting into practice the abilityn to build rigorous programmed workflows and begin to put into practice, the methods for backing-up my code and implementing version control. This is important as it will teach me how best to support working collaboratively and encouraging open science principles within my own practice.
+
+Now we can install packages that we need for the script and plots.
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+remove.packages('rlang')
+install.packages('rlang')
+```
+We'll jump back to this later when we start to build some plots using the built in data. 
+
+For now.. I will repeat the steps I originally used to install Git (within R), Set up a GitHub account (the online aspect and repository sharing).
+We have now learnt (and will learn to appreciate) the platform known as GitHub. The version control that the platform provides is robust with its version control capabilities, where data scientists can track changes to data sets, make changes to scripts and project files. This allows for collaboration and reproduceability, two of the main themes that this technical skill focuses on!
+It encourages the open science policies, that promote open access to code and data for transparency and knowledge sharing. This is also great as it means if there is curiosity about the results of research, others can reproduce the data and makesure no biases are involved in the process of the researches findings or claims!
+
+How this actually went for us.....:
+The whole class is all pretty new to Git and GitHub, except for some bioinformatics students that have had the experience with bash, git, terminal and other associated aspects we are starting to learn the skills of. 
+This meant, we were in a great collaborative environment, where we were able to help eachother out. Due to the nature of the module, with Git being introduced at the beginning, instead of the end like it had in the prior year - this led to a LOT of trouble shooting, issues with software, differences between machines (e.g Macbook, linux and windows.) 
+
+Although time consuming and frustrating, this meant we were able to really implement our time management, critical thinking, problem solving and teamwork within the first two days.
+
+Back to it....
+First we will check that everything is connected and communicating!
+```{r}
+#install.packages("usethis")
+credentials::git_credential_ask()
+usethis::git_sitrep()
+```
+
+As per the workbook instructions, I have now created a Personal Access Token (PAT)
+on my account in GitHub. Here it is saved for when I need it!:
+
+Code: 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
+
+
+
+
+Let's have a looksie at our data!
+```{r}
+R.version.string
+```
+```{r}
+install.packages("tidyverse") # Delete this line once installed
+library("tidyverse")
+```
+Install and load tidyverse packages above and then GGplot.
+```{r}
+install.packages("ggplot2")
+library(ggplot2)
+```
+Let's start by creating a ggplot! 
+A couple notes here for my portfolio!
+displ- engine size of the car in litres
+hwy - the car's fuel efficiency in miles per gallon (mpg). A car with a low fuel efficiency consumes more fuel than a car with a high fuel efficiency when they travel the same distance.
+
+We will first do a scatter plot!
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+```{r}
+data(mpg)
+# Quick data checks
+head(mpg)
+glimpse(mpg)
+summary(mpg)
+```
+Creating a plot!
+```{r}
+geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+The plot shows a negative relationship between engine size (displ) and fuel efficiency (hwy). In other words, cars with big engines use more fuel. What does this say about fuel efficiency and engine size?
+
+When you’re creating a plot, you essentially need two attributes of a plot: a geom and aesthetics.
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
+```
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
+```
+I played around with the different ways of displaynig the data and the associated warnings that come up with each of the prompts, in an old R script.
+I want to take onboard the feedback from the last few modules of refining my script and just do the final and clean versions needed for learning and E-portfolio.
+
+```{r}
+# Change point shape by class:
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class))
+
+# Make all points blue
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+# Change point colour by class:
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
+```
+Okay great! I'm getting a good handle on my plots now and how to change aspects of the plot to make it look more aesthetic 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
