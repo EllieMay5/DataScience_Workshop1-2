@@ -58,18 +58,39 @@ on my account in GitHub. Here it is saved for when I need it!:
 
 Code: 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
 
+What now?:
+I have made sure to set a new project, where I have my new script for my repository. I had previously created the cloned and personal versions but will now ONLY USE THIS ONE - to avoid confusion moving forward. 
 
+I have now created a new project, through version control within R, copying and pasting my new repository. I have done a check that it is all connected, by 1.Committing 2. Pushing and 3. Pulling. 
+
+I jumped online to review my repo and it's all there and looks goood. I also checked my folder and path, to makesure that it contains my code, data, output and then the project itself. They're there!!! So we can move forward now with confidence, knowing that any changes I make, will be replicated within either of the programs.
+
+
+We've covered lots, but I'm gaining more of an understanding the more we put the theory into practice.
+
+
+Key Actions:
+2.11.1 Pull: Syncs local project from remote server (in our case - GitHub). Always save before this to avoid overwriting the file.
+
+2.11.2 Stage: Prepares the files for being committed. Always happens before committing the files, almost like a sort and prep stage.
+
+2.11.3 Commit: The function thast saves the version of the script/project into the repository history locally. The commment section allows us and any other users to know understand what. this comment involved. E.g "Updated changes made for raw data, cleaning and sorting. Now ready for analysis".
+
+2.11.4 Push: The function that sends our locally commited project into the server and synchronises the versions (version control.)
+
+PART 2: Data Visualisation in R
 
 
 Let's have a looksie at our data!
 ```{r}
 R.version.string
 ```
+Great, we have the current and latest version of R runnning.
 ```{r}
-install.packages("tidyverse") # Delete this line once installed
+install.packages("tidyverse")
 library("tidyverse")
 ```
-Install and load tidyverse packages above and then GGplot.
+Install and load tidyverse packages above and then GGplot (ggplot2).
 ```{r}
 install.packages("ggplot2")
 library(ggplot2)
@@ -103,13 +124,10 @@ When you’re creating a plot, you essentially need two attributes of a plot: a 
 ```{r}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, colour = class))
+geom_smooth(mappings = aes(x = displ, y = hwy, linetype =drv)) # try smooth line
 ```
-```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
-```
-I played around with the different ways of displaynig the data and the associated warnings that come up with each of the prompts, in an old R script.
-I want to take onboard the feedback from the last few modules of refining my script and just do the final and clean versions needed for learning and E-portfolio.
+I played around with the different ways of displaying the data and the associated warnings that come up with each of the prompts, in an old R script.
+I want to take on board the feedback from the last few modules of refining my script and just do the final and clean versions needed for learning and E-portfolio.
 
 ```{r}
 # Change point shape by class:
@@ -126,26 +144,69 @@ ggplot(data = mpg) +
 ```
 Okay great! I'm getting a good handle on my plots now and how to change aspects of the plot to make it look more aesthetic 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+2.22 Transformation and Stats
+Let's make a barchart.
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut))
 ```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+Looks good, I fixed the mistake (typo xx)
+```{r}
+ggplot(data = diamonds) + 
+  stat_count(mapping = aes(x = cut))
 ```
+In general, we can use geoms and stats interchangeably. See above the stat count second chunk, does the same as our geombar function!
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+Let's learn some more about data frames: 
+```{r}
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
 ```
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, colour = cut))
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = cut))
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+```
+Oooh! This looks great. I actually know these terms of clarity since looking into my moissannite ring!
+
+The ability to make position adjustments is vital, it allows you to customise your plots in three ways, identity (raw data), fill (changes heights) and dodge (which forces ggplot2 to not put things on top of each other).
+
+```{r}
+#To alter transparency (alpha)
+ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
+  geom_bar(alpha = 1/5, position = "identity")
+
+#To color the bar outlines with no fill color
+ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + 
+  geom_bar(fill = NA, position = "identity")
+```
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+```
+I much prefer the solid colour when compared to the transparent columns...
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+```
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+```
+We have used jitter previously, great for visualising some types of data!
+
+Okay let's finish up this template since we have had a good play around to help our understanding of what we can change visually within the plots.
+
+Workshop 2: 
+
