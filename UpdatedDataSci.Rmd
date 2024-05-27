@@ -16,6 +16,8 @@ Gathering qualitative or quantitative data in the field is an essential aspect o
 
 The workshop has a lot of theory based practice that is knowledge I hope to retain, so where things get wordy, that's just my way of saying "Hey! I want to remember this!"
 
+A quick note on the formatting of the script: All sections will be referenced directly to their corresponding sections and subsections of the workflow module PDF. This means, that there might be spots where it jumps from one section to the next i.e 4.1 then 4.5 respectively. The sections numbers just help for reference to where I am at in the workbook, for my own reference and those who may be following along!
+
 Let's get right into it... 
 Starting a R markdown script:
 
@@ -86,12 +88,13 @@ Let's have a looksie at our data!
 R.version.string
 ```
 Great, we have the current and latest version of R runnning.
-```{r}
+```{r Tidyverse}
 install.packages("tidyverse")
 library("tidyverse")
 ```
 Install and load tidyverse packages above and then GGplot (ggplot2).
-```{r}
+
+```{r Installing ggplot}
 install.packages("ggplot2")
 library(ggplot2)
 ```
@@ -101,11 +104,11 @@ displ- engine size of the car in litres
 hwy - the car's fuel efficiency in miles per gallon (mpg). A car with a low fuel efficiency consumes more fuel than a car with a high fuel efficiency when they travel the same distance.
 
 We will first do a scatter plot!
-```{r}
+```{r Scatterplot}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy))
 ```
-```{r}
+```{r Data for plotting}
 data(mpg)
 # Quick data checks
 head(mpg)
@@ -113,7 +116,7 @@ glimpse(mpg)
 summary(mpg)
 ```
 Creating a plot!
-```{r}
+```{r Plot creation}
 geom_point(mapping = aes(x = displ, y = hwy))
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy))
@@ -121,7 +124,7 @@ ggplot(data = mpg) +
 The plot shows a negative relationship between engine size (displ) and fuel efficiency (hwy). In other words, cars with big engines use more fuel. What does this say about fuel efficiency and engine size?
 
 When you’re creating a plot, you essentially need two attributes of a plot: a geom and aesthetics.
-```{r}
+```{r Load data}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, colour = class))
 geom_smooth(mappings = aes(x = displ, y = hwy, linetype =drv)) # try smooth line
@@ -129,7 +132,7 @@ geom_smooth(mappings = aes(x = displ, y = hwy, linetype =drv)) # try smooth line
 I played around with the different ways of displaying the data and the associated warnings that come up with each of the prompts, in an old R script.
 I want to take on board the feedback from the last few modules of refining my script and just do the final and clean versions needed for learning and E-portfolio.
 
-```{r}
+```{r Playing with the plot}
 # Change point shape by class:
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, shape = class))
@@ -146,19 +149,19 @@ Okay great! I'm getting a good handle on my plots now and how to change aspects 
 
 2.22 Transformation and Stats
 Let's make a barchart.
-```{r}
+```{r Start our chart creation!}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut))
 ```
 Looks good, I fixed the mistake (typo xx)
-```{r}
+```{r Plotting}
 ggplot(data = diamonds) + 
   stat_count(mapping = aes(x = cut))
 ```
 In general, we can use geoms and stats interchangeably. See above the stat count second chunk, does the same as our geombar function!
 
 Let's learn some more about data frames: 
-```{r}
+```{r Data Frames}
 ggplot(data = diamonds) + 
   stat_summary(
     mapping = aes(x = cut, y = depth),
@@ -167,14 +170,14 @@ ggplot(data = diamonds) +
     fun = median
   )
 ```
-```{r}
+```{r Plotting}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, colour = cut))
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = cut))
 
 ```
-```{r}
+```{r Plotting Diamonds}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = clarity))
 ```
@@ -182,7 +185,7 @@ Oooh! This looks great. I actually know these terms of clarity since looking int
 
 The ability to make position adjustments is vital, it allows you to customise your plots in three ways, identity (raw data), fill (changes heights) and dodge (which forces ggplot2 to not put things on top of each other).
 
-```{r}
+```{r Transparency}
 #To alter transparency (alpha)
 ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
   geom_bar(alpha = 1/5, position = "identity")
@@ -191,16 +194,16 @@ ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) +
 ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + 
   geom_bar(fill = NA, position = "identity")
 ```
-```{r}
+```{r Diamonds Clarity}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
 ```
 I much prefer the solid colour when compared to the transparent columns...
-```{r}
+```{r Diamonds Clarity Plot 2}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
 ```
-```{r}
+```{r Jitter Plot}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
 ```
@@ -208,5 +211,791 @@ We have used jitter previously, great for visualising some types of data!
 
 Okay let's finish up this template since we have had a good play around to help our understanding of what we can change visually within the plots.
 
-Workshop 2: 
+3.0 WORKSHOP 2: We have built a strong foundatio in understanding how ggplot allows us to flexibly build graphs, so now can begin to explore data visualisation more!
+
+3.1 LABELS
+```{r Labels}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se.e = FALSE) +
+  labs(title ="Larger engines typically correlate with lower fuel efficiency")
+```
+Very nice!
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Engine displacement (L)",
+    y = "Highway fuel economy (mpg)",
+    colour = "Car type",
+    title = "Larger engines typically correlate with lower fuel efficiency",
+    subtitle = "Two seaters (sports cars) are an exception because of their lower weight",
+    caption = "Data from fueleconomy.gov"
+  )
+
+```
+There's more we can do here... like:
+3.2 ANNOTATIONS
+```{r}
+best_in_class <- mpg %>%
+  group_by(class) %>%
+  filter(row_number(desc(hwy)) == 1)
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_text(aes(label = model), data = best_in_class, nudge_x = 4.5, nudge_y = 1.5) +
+  labs(title = "Fuel efficiency generally decreases with engine size",
+       subtitle = "Although the labels overlap, there are ways you can handle that issue if you ever find it a problem. These include using the nudge() function to move your text a certain amount and using other R packages to handle text wrapping etc.")
+
+```
+3.3 SCALES
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  scale_x_continuous() +
+  scale_y_continuous() +
+  scale_colour_discrete()
+```
+3.4 AXIS TICKS
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  scale_y_continuous(breaks = seq(15, 40, by = 5))
+```
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  scale_x_continuous(labels = NULL) +
+  scale_y_continuous(labels = NULL)
+```
+3.5 LEGENDS AND COLOUR SCHEMES
+```{r}
+base <- ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class))
+
+base + theme(legend.position = "left")
+base + theme(legend.position = "top")
+base + theme(legend.position = "bottom")
+base + theme(legend.position = "right") # the default
+```
+
+Tip: You can also use legend.position = "none" to suppress the display of the legend altogether!
+
+
+3.6 REPLACING A SCALE
+```{r}
+ggplot(diamonds, aes(carat, price)) +
+  geom_bin2d() + 
+  scale_x_log10() + 
+  scale_y_log10()
+```
+GORGEOUS!!
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = drv))
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = drv)) +
+  scale_colour_brewer(palette = "Set1")
+
+
+```
+```{r}
+scale_color_manual()
+```
+
+```{r Anoyther plot! Presidential}
+presidential %>%
+  mutate(id = 33 + row_number()) %>%
+  ggplot(aes(start, id, colour = party)) +
+    geom_point() +
+    geom_segment(aes(xend = end, yend = id)) +
+    scale_colour_manual(values = c(Republican = "pink", Democratic = "lightblue"))
+
+```
+
+```{r Packages and More}
+install.packages('viridis')
+install.packages('hexbin')
+library(viridis)
+library(hexbin)
+
+df <- tibble( # note we're just making a fake dataset so we can plot it
+  x = rnorm(10000),
+  y = rnorm(10000)
+)
+ggplot(df, aes(x, y)) +
+  geom_hex() + # a new geom!
+  coord_fixed()
+
+ggplot(df, aes(x, y)) +
+  geom_hex() +
+  viridis::scale_fill_viridis() +
+  coord_fixed()
+```
+
+3.7 Themes 
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_bw()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_light()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_classic()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_dark()
+```
+
+```{r}
+theme (panel.border = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.position="bottom",
+        legend.title=element_blank(),
+        legend.text=element_text(size=8),
+        panel.grid.major = element_blank(),
+        legend.key = element_blank(),
+        legend.background = element_blank(),
+        axis.text.y=element_text(colour="black"),
+        axis.text.x=element_text(colour="black"),
+        text=element_text(family="Arial"))
+```
+
+3.8 Saving and exporting your plots
+```{r}
+ggplot(mpg, aes(displ, hwy)) + geom_point()
+
+ggsave("my-plot.pdf")
+#> Saving 7 x 4.32 in image
+```
+```{r Read in Data}
+read.csv('SharkMeta.csv')
+Dat <-("SharkMeta.csv")
+View(Dat)
+summary(Dat)
+head(Dat)
+```
+
+3.9 Summary
+We explored functions of ggplot using data and designed some great plots!
+Now it's time to put into practice, what we have learnt. 
+```{r}
+wes_palettes <- list(
+  BottleRocket1 = c("#A42820", "#5F5647", "#9B110E", "#3F5151", "#4E2A1E", "#550307", "#0C1707"),
+  BottleRocket2 = c("#FAD510", "#CB2314", "#273046", "#354823", "#1E1E1E"),
+  Rushmore1 = c("#E1BD6D", "#EABE94", "#0B775E", "#35274A" ,"#F2300F"),
+  Rushmore = c("#E1BD6D", "#EABE94", "#0B775E", "#35274A" ,"#F2300F"),
+  Royal1 = c("#899DA4", "#C93312", "#FAEFD1", "#DC863B"),
+  Royal2 = c("#9A8822", "#F5CDB4", "#F8AFA8", "#FDDDA0", "#74A089"),
+  Zissou1 = c("#3B9AB2", "#78B7C5", "#EBCC2A", "#E1AF00", "#F21A00"),
+  Zissou1Continuous = c("#3A9AB2", "#6FB2C1", "#91BAB6", "#A5C2A3", "#BDC881", "#DCCB4E", "#E3B710", "#E79805", "#EC7A05", "#EF5703", "#F11B00"),
+  Darjeeling1 = c("#FF0000", "#00A08A", "#F2AD00", "#F98400", "#5BBCD6"),
+  Darjeeling2 = c("#ECCBAE", "#046C9A", "#D69C4E", "#ABDDDE", "#000000"),
+  Chevalier1 = c("#446455", "#FDD262", "#D3DDDC", "#C7B19C"),
+  FantasticFox1 = c("#DD8D29", "#E2D200", "#46ACC8", "#E58601", "#B40F20"),
+  Moonrise1 = c("#F3DF6C", "#CEAB07", "#D5D5D3", "#24281A"),
+  Moonrise2 = c("#798E87", "#C27D38", "#CCC591", "#29211F"),
+  Moonrise3 = c("#85D4E3", "#F4B5BD", "#9C964A", "#CDC08C", "#FAD77B"),
+  Cavalcanti1 = c("#D8B70A", "#02401B", "#A2A475", "#81A88D", "#972D15"),
+  GrandBudapest1 = c("#F1BB7B", "#FD6467", "#5B1A18", "#D67236"),
+  GrandBudapest2 = c("#E6A0C4", "#C6CDF7", "#D8A499", "#7294D4"),
+  IsleofDogs1 = c("#9986A5", "#79402E", "#CCBA72", "#0F0D0E", "#D9D0D3", "#8D8680"),
+  IsleofDogs2 = c("#EAD3BF", "#AA9486", "#B6854D", "#39312F", "#1C1718"),
+  FrenchDispatch = c("#90D4CC", "#BD3027", "#B0AFA2", "#7FC0C6", "#9D9C85"),
+  AsteroidCity1 = c("#0A9F9D", "#CEB175", "#E54E21", "#6C8645", "#C18748"),
+  AsteroidCity2 = c("#C52E19", "#AC9765", "#54D8B1", "#b67c3b", "#175149", "#AF4E24"),
+  AsteroidCity3 = c("#FBA72A", "#D3D4D8", "#CB7A5C", "#5785C1")
+)
+```
+These colours are beautiful, from the Wes Anderson pallete. I will definitely utilise them in my future plots!
+
+Let's move on to assignment 2!
+
+Using real-world marine data collected as part of the Queensland Fisheries Qfish database to develop a report (r-markdown). For this I will create a new script!
+
+Workshop 3 - Data wrangling in R
+
+4.1 Workshop overview: 
+We will learn how to take tabluar data and prepare it for use in plotting, fitting statistical modelling and summarising it to better understand pattens in our data.
+
+4.3 Tidying data using Tidyr
+Let's organise some data!
+```{r}
+library(tidyverse)
+```
+4.4 Tidy data
+Sometimes, we are given data that is not easy for an analysis. 
+The form of the data may be inconvenient for data collection/entry... but! We can rearrange the data to a format more appropriate for analysis. This process is called "tidying".
+
+```{r}
+table1
+#> # A tibble: 6 × 4
+#>   country      year  cases population
+#>   <chr>       <int>  <int>      <int>
+#> 1 Afghanistan  1999    745   19987071
+#> 2 Afghanistan  2000   2666   20595360
+#> 3 Brazil       1999  37737  172006362
+#> 4 Brazil       2000  80488  174504898
+#> 5 China        1999 212258 1272915272
+#> 6 China        2000 213766 1280428583
+table2
+#> # A tibble: 12 × 4
+#>   country      year type           count
+#>   <chr>       <int> <chr>          <int>
+#> 1 Afghanistan  1999 cases            745
+#> 2 Afghanistan  1999 population  19987071
+#> 3 Afghanistan  2000 cases           2666
+#> 4 Afghanistan  2000 population  20595360
+#> 5 Brazil       1999 cases          37737
+#> 6 Brazil       1999 population 172006362
+#> # ... with 6 more rows
+table3
+#> # A tibble: 6 × 3
+#>   country      year rate             
+#> * <chr>       <int> <chr>            
+#> 1 Afghanistan  1999 745/19987071     
+#> 2 Afghanistan  2000 2666/20595360    
+#> 3 Brazil       1999 37737/172006362  
+#> 4 Brazil       2000 80488/174504898  
+#> 5 China        1999 212258/1272915272
+#> 6 China        2000 213766/1280428583
+```
+Each of these tables that we ust plotted, displays the same data set but on the first table (Table1) is in a tidy format. 
+The rules: 1. Each variable must have its own column.
+2. Each observation must have its own row.
+3. Each value must have its own cell.
+
+```{r}
+# Compute rate per 10,000
+table1 %>% 
+  mutate(rate = cases / population * 10000)
+#> # A tibble: 6 × 5
+#>   country      year  cases population  rate
+#>   <chr>       <int>  <int>      <int> <dbl>
+#> 1 Afghanistan  1999    745   19987071 0.373
+#> 2 Afghanistan  2000   2666   20595360 1.29 
+#> 3 Brazil       1999  37737  172006362 2.19 
+#> 4 Brazil       2000  80488  174504898 5.61 
+#> 5 China        1999 212258 1272915272 1.67 
+#> 6 China        2000 213766 1280428583 1.67
+
+# Compute cases per year
+table1 %>% 
+  count(year, wt = cases)
+#> # A tibble: 2 × 2
+#>    year      n
+#>   <int>  <int>
+#> 1  1999 250740
+#> 2  2000 296920
+
+# Visualise changes over time
+library(ggplot2)
+ggplot(table1, aes(year, cases)) + 
+  geom_line(aes(group = country), colour = "grey50") + 
+  geom_point(aes(colour = country))
+
+```
+
+Note: Understanding whether data frame structue is optimal (or in other words: Tidy) is a FUNDAMENTAL skill as a marine scientist. 
+
+```{r}
+billboard
+#> # A tibble: 317 × 79
+#>   artist       track               date.entered   wk1   wk2   wk3   wk4   wk5
+#>   <chr>        <chr>               <date>       <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1 2 Pac        Baby Don't Cry (Ke... 2000-02-26      87    82    72    77    87
+#> 2 2Ge+her      The Hardest Part O... 2000-09-02      91    87    92    NA    NA
+#> 3 3 Doors Down Kryptonite          2000-04-08      81    70    68    67    66
+#> 4 3 Doors Down Loser               2000-10-21      76    76    72    69    67
+#> 5 504 Boyz     Wobble Wobble       2000-04-15      57    34    25    17    17
+#> 6 98^0         Give Me Just One N... 2000-08-19      51    39    34    26    26
+#> # ℹ 311 more rows
+#> # ℹ 71 more variables: wk6 <dbl>, wk7 <dbl>, wk8 <dbl>, wk9 <dbl>, ...
+```
+ABSOLUTE  BANGERS....
+
+```{r}
+billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank"
+  )
+#> # A tibble: 24,092 × 5
+#>    artist track                   date.entered week   rank
+#>    <chr>  <chr>                   <date>       <chr> <dbl>
+#>  1 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk1      87
+#>  2 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk2      82
+#>  3 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk3      72
+#>  4 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk4      77
+#>  5 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk5      87
+#>  6 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk6      94
+#>  #> # ℹ 24,082 more rows
+```
+```{r}
+billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    values_drop_na = TRUE
+  )
+#> # A tibble: 5,307 × 5
+#>   artist track                   date.entered week   rank
+```
+
+
+df |> 
+  pivot_longer(
+    cols = bp1:bp2,
+    names_to = "measurement",
+    values_to = "value"
+  )
+#> # A tibble: 6 × 3
+#>   id    measurement value
+#>   <chr> <chr>       <dbl>
+#> 1 A     bp1           100
+#> 2 A     bp2           120
+#> 3 B     bp1           140
+#> 4 B     bp2           115
+#> 5 C     bp1           120
+#> 6 C     bp2           125
+
+```{r}
+#>   <chr>  <chr>                   <date>       <chr> <dbl>
+#> 1 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk1      87
+#> 2 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk2      82
+#> 3 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk3      72
+#> 4 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk4      77
+#> 5 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk5      87
+#> 6 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk6      94
+#> # ℹ 5,301 more rows
+```
+```{r}
+df <- tribble(
+  ~id,  ~bp1, ~bp2,
+   "A",  100,  120,
+   "B",  140,  115,
+   "C",  120,  125
+)
+```
+
+
+```{r}
+df |> 
+  pivot_longer(
+    cols = bp1:bp2,
+    names_to = "measurement",
+    values_to = "value"
+  )
+#> # A tibble: 6 × 3
+#>   id    measurement value
+#>   <chr> <chr>       <dbl>
+#> 1 A     bp1           100
+#> 2 A     bp2           120
+#> 3 B     bp1           140
+#> 4 B     bp2           115
+#> 5 C     bp1           120
+#> 6 C     bp2           125
+```
+```{r}
+cms_patient_experience
+#> # A tibble: 500 × 5
+#>   org_pac_id org_nm                     measure_cd   measure_title   prf_rate
+#>   <chr>      <chr>                      <chr>        <chr>              <dbl>
+#> 1 0446157747 USC CARE MEDICAL GROUP INC CAHPS_GRP_1  CAHPS for MIPS...       63
+#> 2 0446157747 USC CARE MEDICAL GROUP INC CAHPS_GRP_2  CAHPS for MIPS...       87
+#> 3 0446157747 USC CARE MEDICAL GROUP INC CAHPS_GRP_3  CAHPS for MIPS...       86
+#> 4 0446157747 USC CARE MEDICAL GROUP INC CAHPS_GRP_5  CAHPS for MIPS...       57
+#> 5 0446157747 USC CARE MEDICAL GROUP INC CAHPS_GRP_8  CAHPS for MIPS...       85
+#> 6 0446157747 USC CARE MEDICAL GROUP INC CAHPS_GRP_12 CAHPS for MIPS...       24
+#> # ℹ 494 more rows
+```
+
+```{r}
+cms_patient_experience |> 
+  distinct(measure_cd, measure_title)
+#> # A tibble: 6 × 2
+#>   measure_cd   measure_title                                                 
+#>   <chr>        <chr>                                                         
+#> 1 CAHPS_GRP_1  CAHPS for MIPS SSM: Getting Timely Care, Appointments, and In...
+#> 2 CAHPS_GRP_2  CAHPS for MIPS SSM: How Well Providers Communicate            
+#> 3 CAHPS_GRP_3  CAHPS for MIPS SSM: Patient's Rating of Provider              
+#> 4 CAHPS_GRP_5  CAHPS for MIPS SSM: Health Promotion and Education            
+#> 5 CAHPS_GRP_8  CAHPS for MIPS SSM: Courteous and Helpful Office Staff        
+#> 6 CAHPS_GRP_12 CAHPS for MIPS SSM: Stewardship of Patient Resources
+```
+
+```{r}
+cms_patient_experience |> 
+  pivot_wider(
+    names_from = measure_cd,
+    values_from = prf_rate
+  )
+#> # A tibble: 500 × 9
+#>   org_pac_id org_nm                   measure_title   CAHPS_GRP_1 CAHPS_GRP_2
+#>   <chr>      <chr>                    <chr>                 <dbl>       <dbl>
+#> 1 0446157747 USC CARE MEDICAL GROUP ... CAHPS for MIPS...          63          NA
+#> 2 0446157747 USC CARE MEDICAL GROUP ... CAHPS for MIPS...          NA          87
+#> 3 0446157747 USC CARE MEDICAL GROUP ... CAHPS for MIPS...          NA          NA
+#> 4 0446157747 USC CARE MEDICAL GROUP ... CAHPS for MIPS...          NA          NA
+#> 5 0446157747 USC CARE MEDICAL GROUP ... CAHPS for MIPS...          NA          NA
+#> 6 0446157747 USC CARE MEDICAL GROUP ... CAHPS for MIPS...          NA          NA
+#> # ℹ 494 more rows
+#> # ℹ 4 more variables: CAHPS_GRP_3 <dbl>, CAHPS_GRP_5 <dbl>, ...
+```
+```{r}
+cms_patient_experience |> 
+  pivot_wider(
+    id_cols = starts_with("org"),
+    names_from = measure_cd,
+    values_from = prf_rate
+  )
+#> # A tibble: 95 × 8
+#>   org_pac_id org_nm           CAHPS_GRP_1 CAHPS_GRP_2 CAHPS_GRP_3 CAHPS_GRP_5
+#>   <chr>      <chr>                  <dbl>       <dbl>       <dbl>       <dbl>
+#> 1 0446157747 USC CARE MEDICA...          63          87          86          57
+#> 2 0446162697 ASSOCIATION OF ...          59          85          83          63
+#> 3 0547164295 BEAVER MEDICAL ...          49          NA          75          44
+#> 4 0749333730 CAPE PHYSICIANS...          67          84          85          65
+#> 5 0840104360 ALLIANCE PHYSIC...          66          87          87          64
+#> 6 0840109864 REX HOSPITAL INC          73          87          84          67
+#> # ℹ 89 more rows
+#> # ℹ 2 more variables: CAHPS_GRP_8 <dbl>, CAHPS_GRP_12 <dbl>
+```
+
+Now we've got the output we want!!!
+
+
+```{r}
+df <- tribble(
+  ~id, ~measurement, ~value,
+  "A",        "bp1",    100,
+  "B",        "bp1",    140,
+  "B",        "bp2",    115, 
+  "A",        "bp2",    120,
+  "A",        "bp3",    105
+)
+```
+
+```{r}
+df |> 
+  pivot_wider(
+    names_from = measurement,
+    values_from = value
+  )
+#> # A tibble: 2 × 4
+#>   id      bp1   bp2   bp3
+#>   <chr> <dbl> <dbl> <dbl>
+#> 1 A       100   120   105
+#> 2 B       140   115    NA
+```
+```{r}
+df |> 
+  distinct(measurement) |> 
+  pull()
+#> [1] "bp1" "bp2" "bp3"
+```
+```{r}
+df |> 
+  select(-measurement, -value) |> 
+  distinct()
+#> # A tibble: 2 × 1
+#>   id   
+#>   <chr>
+#> 1 A    
+#> 2 B
+```
+
+```{r}
+df |> 
+  select(-measurement, -value) |> 
+  distinct() |> 
+  mutate(x = NA, y = NA, z = NA)
+#> # A tibble: 2 × 4
+#>   id    x     y     z    
+#>   <chr> <lgl> <lgl> <lgl>
+#> 1 A     NA    NA    NA   
+#> 2 B     NA    NA    NA
+```
+Then, it fills all the missing values using the data in the input. 
+With what we're working on here, not every cell in the output has a correspobding value in the input as there's no third blood pressure measurement for the patient B, so that cell remains empty/missing.
+
+4.5.5 Exercises 
+1. Why are pivot_longer() and pivot_wider not perfectly symmetrical?
+Let's have a look with the below examples.
+```{r}
+stocks <- tibble(
+  year   = c(2015, 2015, 2016, 2016),
+  half  = c(   1,    2,     1,    2),
+  return = c(1.88, 0.59, 0.92, 0.17)
+)
+stocks %>% 
+  pivot_wider(names_from = year, values_from = return) %>% 
+  pivot_longer(`2015`:`2016`, names_to = "year", values_to = "return")
+
+
+# Pivot_longer() has a names_ptypes argument, e.g.  names_ptypes = list(year = double()). What does it do?
+```
+The variable types are character which is numeric (year), 
+```{r}
+names_ptypes
+```
+```{r}
+table4a %>% 
+  pivot_longer(c(1999, 2000), names_to = "year", values_to = "cases")
+#> Error in `pivot_longer()`:
+#> ! Can't subset columns past the end.
+#> ℹ Locations 1999 and 2000 don't exist.
+#> ℹ There are only 3 columns.
+```
+Why does the above code fail?
+The code fails because of the error of the script, asking R studio to make the columns longer, for years that aren't within the data set.
+```{r}
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes",     NA,    10,
+  "no",      20,    12
+)
+```
+
+```{r}
+table3
+#> # A tibble: 6 × 3
+#>   country      year rate             
+#> * <chr>       <int> <chr>            
+#> 1 Afghanistan  1999 745/19987071     
+#> 2 Afghanistan  2000 2666/20595360    
+#> 3 Brazil       1999 37737/172006362  
+#> 4 Brazil       2000 80488/174504898  
+#> 5 China        1999 212258/1272915272
+#> 6 China        2000 213766/1280428583
+table3 %>% 
+  separate(rate, into = c("cases", "population"))
+#> # A tibble: 6 × 4
+#>   country      year cases  population
+#>   <chr>       <int> <chr>  <chr>     
+#> 1 Afghanistan  1999 745    19987071  
+#> 2 Afghanistan  2000 2666   20595360  
+#> 3 Brazil       1999 37737  172006362 
+#> 4 Brazil       2000 80488  174504898 
+#> 5 China        1999 212258 1272915272
+#> 6 China        2000 213766 1280428583
+```
+```{r}
+table3 %>% 
+  separate(rate, into = c("cases", "population"), sep = "/")
+```
+Note: The data types in the tables above - both [cases] and [populations] are listed as character types (<chr>). Since the values in the columns are actually numbers, so we want to ask the function separate() to convert them to better types using convert = TRUE. Then they will be listed as integer types (<int>).
+
+```{r}
+table3 %>% 
+  separate(rate, into = c("cases", "population"), convert = TRUE)
+#> # A tibble: 6 × 4
+#>   country      year  cases population
+#>   <chr>       <int>  <int>      <int>
+#> 1 Afghanistan  1999    745   19987071
+#> 2 Afghanistan  2000   2666   20595360
+#> 3 Brazil       1999  37737  172006362
+#> 4 Brazil       2000  80488  174504898
+#> 5 China        1999 212258 1272915272
+#> 6 China        2000 213766 1280428583
+```
+cases & population now converted to integer. 
+
+Next, I also need to seperate the last two digits of each year. This will make my data less tidy but will come in handy soon. 
+```{r}
+table3 %>% 
+  separate(year, into = c("century", "year"), sep = 2)
+#> # A tibble: 6 × 4
+#>   country     century year  rate             
+#>   <chr>       <chr>   <chr> <chr>            
+#> 1 Afghanistan 19      99    745/19987071     
+#> 2 Afghanistan 20      00    2666/20595360    
+#> 3 Brazil      19      99    37737/172006362  
+#> 4 Brazil      20      00    80488/174504898  
+#> 5 China       19      99    212258/1272915272
+#> 6 China       20      00    213766/1280428583
+```
+Now, I want to combine multiple columns into a single column.
+```{r}
+table5 %>% 
+  unite(new, century, year, sep = "")
+#> # A tibble: 6 × 3
+#>   country     new   rate             
+#>   <chr>       <chr> <chr>            
+#> 1 Afghanistan 1999  745/19987071     
+#> 2 Afghanistan 2000  2666/20595360    
+#> 3 Brazil      1999  37737/172006362  
+#> 4 Brazil      2000  80488/174504898  
+#> 5 China       1999  212258/1272915272
+#> 6 China       2000  213766/1280428583
+
+
+```
+Now the year is back into the one column, looks good!
+I have had a lot of practice with missing values and NaN, and importing data     so will just skip pass that for now and move onto aspects I need to learn and practice more!
+
+Note: Page 78-94 done seperately as homework exercise.
+I will relate back to the skills worked on during these sections, for the assignment and Qfish analysis, later on!
+
+Workshop 4: Spatial Data in R
+Using GIS and R together! 
+
+We've got a loooooooong code already, so we'll jump straight into it: 
+Installing the packages we need and loading into our library.
+```{r}
+# install and load your packages
+install.packages("sf") 
+install.packages("terra")
+install.packages("tmap")
+
+
+#load into R library
+library(tidyverse)
+library(sf) # simple features
+library (terra) # for raster
+library(tmap) # Thematic maps are geographical maps in which spatial data distributions are visualized
+```
+```{r}
+remotes::install_github('r-tmap/tmap')
+```
+
+
+5.5 Introduction to the problem:
+A little bit of background....
+"You finally have a chance to meet one of your academic heroes. On meeting her, she mentions that she’s read your first PhD paper on zooplankton biogeography. She said she was particularly impressed with the extent of R analysis in your biogeography paper and goes on to suggest you collaborate on a new database she is ‘working with’.
+The database has extensive samples of copepod richness throughout Australia’s oceans and the Southern Ocean too. She has a hypothesis - that like many organisms, copepod species richness (which is the number of unique species) will be higher in warmer waters than cooler waters. But she needs help sorting out the data.
+First and foremost, she wants you to use your skills in R to help develop a map that could help you ‘get a look at’ whether this hypothesis is worth pursuing"
+
+I have downloaded the data that has a spreadsheet pf copepod species richness from around Aus. Copepods that are perhaps the most complex and abundant animal on earth are a type of zoo plankton, and play an important role in ocean food-webs.
+We're working with some hectic data (that also sounds pretty RAW and UNTIDY!)
+From a Continuous Plankton recorder (CPR) that is actually used in realo world studies for a lab in Bris. More on this here for later: Australian Plankton Survey: IMOS.org.au, https://imos.org.au/facilities/shipsofopportunity/auscontinuousplanktonrecorder/)
+
+There's 5 items in the zipped folder, but I have added them into my "UpdatedDataSci" folder so I'm not changing around my working directory for this section.
+
+```{r}
+#load the copepod data into R studio
+library(readr)
+dat <- read_csv("copepods_raw.csv")
+dat
+```
+Heck yeah! We have the data loaded in and looking as it should based on the reference of the workflow.
+
+5.7 Data Exploration
+Let's Familiarise ourself with the copepod data we have been given!
+
+```{r}
+library(ggplot2)
+ggplot(dat) + 
+  aes(x = longitude, y = latitude, color = richness_raw) +
+  geom_point()
+
+```
+Woah! This looks great but it's not yet an actual map. 
+We need to add the critical aspects that a map needs, like the real distances between points (projection.)
+
+Let's have a loo at the richness data: The main variable we will be looking at within the data. We will create a point plot with latitude on the x-axis and richness on the y-axis.
+```{r}
+ggplot(dat, aes(x = latitude, y = richness_raw)) + 
+  stat_smooth() + 
+  geom_point()
+```
+I can definitely notice it looks a little odd in my plot. 
+There is a really clear change around the -40 latitude point.... This is a good example of visualising the data in plots to see how it looks. If we were using this data to actually get results that we may be sharing/publishing - then we would be checking the reasoning for this with our collaborator.
+
+```{r}
+
+```
+Next: Let's turn the data set into a 'simple features collection'. 
+I hadn't downloaded the package yet so lets do that and then turn the data into sdat.
+```{r}
+install.packages('sf')
+library(sf)
+```
+```{r}
+
+```
+
+```{r}
+sdat <- st_as_sf(dat, coords = c("longitude", "latitude"), 
+                 crs = 4326)
+```
+5.9 Coordinate reference system
+I'm familiar with these, so will jump straight into it!
+```{r}
+crs4326 <- st_crs(4326)
+crs4326 # look at the whole CRS
+crs4326$Name # pull out just the name of the crs
+[1] "WGS 84"
+```
+```{r}
+crs4326$wkt # crs in well-known text format
+```
+Let's have a look at what we created with our sdat.
+```{r}
+sdat
+```
+Looks as it is supposed to, great!
+We can now start playing with msome mapping!
+
+5.11 Cartography
+```{r}
+plot(sdat["richness_raw"])
+```
+```{r}
+plot(sdat)
+```
+Very quirky! 
+```{r}
+#using tmap
+install.packages("tmap")
+library(tmap)
+```
+
+```{r}
+tm_shape(sdat) + 
+  tm_dots(col = "richness_raw")
+```
+Time to customize: 
+```{r}
+tmap_save(tm1, filename = "Richness-map.png", 
+          width = 600, height = 600)
+```
+
+For the next step, since we are working with maps, we will now need to add in polygons - which from our experience: We know are stored as shapefiles!
+```{r}
+aus <- st_read("data-for-course/spatial-data/Aussie/Aussie.shp")
+Reading layer `Aussie' from data source 
+  `/Users/s2973410/Documents/Code/teaching/spatial-analysis-in-r/data-for-course/spatial-data/Aussie/Aussie.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 8 features and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 112.9211 ymin: -43.63192 xmax: 153.6389 ymax: -9.229614
+Geodetic CRS:  WGS 84
+
+
+shelf <- st_read("data-for-course/spatial-data/aus_shelf/aus_shelf.shp")
+```
+```{r}
+
+```
 
