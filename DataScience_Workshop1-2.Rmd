@@ -85,8 +85,7 @@ PART 2: Data Visualisation in R
 
 Let's have a looksie at our data!
 ```{r}
-R.version.string. # check R version
-view(mpg) #dataset stored within R
+R.version.string
 ```
 Great, we have the current and latest version of R runnning.
 ```{r Tidyverse}
@@ -94,6 +93,7 @@ install.packages("tidyverse")
 library("tidyverse")
 ```
 Install and load tidyverse packages above and then GGplot (ggplot2).
+
 ```{r Installing ggplot}
 install.packages("ggplot2")
 library(ggplot2)
@@ -178,8 +178,6 @@ ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = cut))
 
 ```
-
-
 ```{r Plotting Diamonds}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = clarity))
@@ -206,8 +204,6 @@ I much prefer the solid colour when compared to the transparent columns...
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
 ```
-
-Jitter plot creation:
 ```{r Jitter Plot}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
@@ -307,8 +303,9 @@ ggplot(mpg, aes(displ, hwy)) +
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(color = drv)) +
   scale_colour_brewer(palette = "Set1")
-```
 
+
+```
 ```{r}
 scale_color_manual()
 ```
@@ -389,22 +386,18 @@ ggplot(mpg, aes(displ, hwy)) + geom_point()
 ggsave("my-plot.pdf")
 #> Saving 7 x 4.32 in image
 ```
-
-
 ```{r Read in Data}
 read.csv('SharkMeta.csv')
 Dat <-("SharkMeta.csv")
 View(Dat)
 summary(Dat)
-head(Dat) # I won't end up using this but worth practising!
+head(Dat)
 ```
+
 3.9 Summary
 We explored functions of ggplot using data and designed some great plots!
 Now it's time to put into practice, what we have learnt. 
-
-
-```{r Some colours for future reference}
-# I would love to use these in the future, so will be worth saving to my repository for when I want to access them again!
+```{r}
 wes_palettes <- list(
   BottleRocket1 = c("#A42820", "#5F5647", "#9B110E", "#3F5151", "#4E2A1E", "#550307", "#0C1707"),
   BottleRocket2 = c("#FAD510", "#CB2314", "#273046", "#354823", "#1E1E1E"),
